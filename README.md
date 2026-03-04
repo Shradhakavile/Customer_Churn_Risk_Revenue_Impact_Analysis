@@ -1,7 +1,7 @@
 # Customer Churn Risk & Revenue Impact Analysis
 ## End-to-End SQL & Python Business Intelligence Case Study
 
-# Executive Summary
+## Executive Summary
 This project analyzes customer churn patterns for a telecom business using SQL and Python. 
 The objective is to identify high-risk customer segments contributing to recurring revenue loss 
 and provide data-driven retention strategies to improve profitability.
@@ -11,7 +11,7 @@ and strategic business recommendations.
 
 This project analyzes customer churn behavior for a telecom company to identify the key factors driving customer attrition and provide actionable business insights to improve retention.
 
-# Business Problem
+## Business Problem
 The telecom company is experiencing increasing customer churn, leading to significant recurring revenue loss. 
 
 Key business questions:
@@ -20,7 +20,7 @@ Key business questions:
 - How much revenue is lost due to churn?
 - What retention strategies can reduce revenue leakage?
 
-# Key Performance Indicators (KPIs)
+## Key Performance Indicators (KPIs)
 - Overall Churn Rate
 - Monthly Revenue Loss Due to Churn
 - Churn Rate by Contract Type
@@ -64,3 +64,28 @@ The analysis was structured in the following stages:
 - Aggregate Functions (SUM, COUNT, AVG)
 - Window Functions for revenue contribution analysis
 - Segmentation using GROUP BY and conditional logic
+
+## Key Business Insights
+- Month-to-month contract customers exhibit the highest churn rate compared to annual contracts.
+- Customers with tenure less than 6 months show significantly higher churn probability.
+- A substantial portion of monthly recurring revenue is lost due to churned customers.
+- High-risk customers (short tenure + month-to-month contract) contribute disproportionately to total churn.
+- Long-tenure customers demonstrate strong retention stability and higher lifetime value.
+
+## Revenue Impact Analysis
+- Calculated total monthly revenue loss from churned customers.
+- Estimated customer lifetime value (CLV) to measure long-term revenue impact.
+- Identified revenue concentration across contract types using window functions.
+- Quantified financial risk associated with high-churn segments.
+
+## Strategic Recommendations
+1. Offer discounted 6-month contract upgrades for month-to-month customers.
+2. Introduce onboarding engagement campaigns for customers within first 6 months.
+3. Deploy churn monitoring alerts for high-risk customer segments.
+4. Provide loyalty incentives for customers completing 12+ months.
+5. Focus retention efforts on high-revenue customers to minimize financial impact.
+
+## Conclusion
+This project demonstrates how SQL and Python can be used to transform raw customer data into actionable business insights. 
+
+By identifying churn patterns and quantifying revenue impact, the analysis enables strategic retention planning aimed at improving profitability and long-term customer value.
