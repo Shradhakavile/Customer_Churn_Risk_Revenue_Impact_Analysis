@@ -1,3 +1,8 @@
+-- Customer Churn Risk & Revenue Impact Analysis
+-- Author: Shradha Kavile
+-- Database: MySQL
+
+#1. DATABASE SETUP
 CREATE DATABASE churn_project;
 USE churn_project;
 
@@ -26,12 +31,26 @@ total_charges VARCHAR(20),
 churn VARCHAR(10)
 );
 
-#1. Overall Churn Rate 
+-- #2. CORE KPI ANALYIS
+
+-- Total Customers
+SELECT COUNT(*) AS total_customers
+FROM customers;
+
+-- Overall Churn Rate 
 SELECT 
 COUNT(CASE WHEN churn = 'Yes' THEN 1 END) * 100.0/ COUNT(*) AS churn_rate
 FROM customers;
 
-#2. Churn by contract type
+-- Monthly Revenue Loss due to Churn
+SELECT 
+ROUND(SUM(monthly_charges), 2) AS monthly_revenue_loss
+FROM customers
+WHERE churn = 'Yes';
+
+-- #3. SEGMENTATION ANALYSIS
+
+-- Churn by contract type
 SELECT contract,
 COUNT(*) AS total_customers,
 SUM(CASE WHEN churn = 'Yes' THEN 1 ELSE 0 END) AS churned_customers,
@@ -40,12 +59,12 @@ FROM customers
 GROUP BY contract
 ORDER BY churn_rate DESC;
 
-#3. Avg tenure churn vs non-churn
+-- Avg Tenure: Churn vs Non-Churn
 SELECT churn, ROUND(AVG(tenure),1) AS avg_tenure
 FROM customers
 GROUP BY churn;
 
-#4. Churn by monthly charges
+-- Churn by Monthly Charges
 SELECT 
   CASE WHEN monthly_charges > 70 THEN 'High Charges'
        ELSE 'Low Charges' END AS charge_group,
@@ -55,4 +74,30 @@ SELECT
 FROM customers
 GROUP BY charge_group;
 
+-- 4. ADVANCED ANALYSIS
 
+-- Risk Segmentation using CTE
+WITH risk_analysis AS (
+    SELECT *,
+        CASE 
+            WHEN contract = 'Month-to-month' AND tenure <= 6 THEN 'High Risk'
+            ELSE 'Other'
+        END AS risk_category
+    FROM customers
+)
+
+SELECT 
+risk_category,
+ROUND(SUM(monthly_charges),2) AS total_revenue
+FROM risk_analysis
+GROUP BY risk_category;
+
+-- Revenue Contribution using Window Function
+SELECT 
+contract,
+SUM(monthly_charges) AS total_revenue,
+ROUND(
+SUM(monthly_charges) * 100.0 / SUM(SUM(monthly_charges)) OVER(),
+2) AS revenue_contribution_percentage
+FROM customers
+GROUP BY contract;
